@@ -14,7 +14,10 @@ async def read_root():
 
 
 @app.get("/creds/{service_name}")
-async def get_creds(service_name: str):
+async def get_creds(api_key: str, service_name: str):
+    if api_key != cfg.API_KEY:
+        return {'status': 'not_authorized'}
+
     status_payload = (
         {"status": "success"}
         if service_name in cfg.SERVICE_X_CREDS.keys()
@@ -28,7 +31,10 @@ async def get_creds(service_name: str):
 
 
 @app.get("/sales")
-async def get_sales():
+async def get_sales(api_key: str):
+    if api_key != cfg.API_KEY:
+        return {'status': 'not_authorized'}
+
     if random.randint(0, 10) <= 3:
         return {**utils.generate_sales_entry(), "status": "success"}
     else:
