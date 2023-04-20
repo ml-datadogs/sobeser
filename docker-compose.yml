@@ -1,0 +1,16 @@
+version: "3"
+
+services:
+  front:
+    build:
+      dockerfile: docker/front/Dockerfile
+      context: .
+
+  api:
+    build:
+      dockerfile: docker/api/Dockerfile
+      context: .
+    environment:
+      SECRETS_JSON: secrets/secrets.json
+    ports:
+      - "12300:12300"
